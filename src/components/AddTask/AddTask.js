@@ -68,7 +68,7 @@ function AddTask(props) {
     }
    
     console.log(newTaskList);
-    axios.put(`http://localhost:7055/api/updateuser/${props.userId}`, {tasks:newTaskList})
+    axios.put(`https://home-app-function.azurewebsites.net/${props.userId}`, {tasks:newTaskList})
     .then(response=>{
        console.log(response);
        window.location = `/week/${props.userId}`;

@@ -7,8 +7,8 @@ function Dashboard() {
 
   function getUsers() {
     axios
-      //  .get("https://home-app-function.azurewebsites.net/api/HomeManager")
-      .get("http://localhost:7055/api/GetUsers")
+      .get("https://home-app-function.azurewebsites.net/api/HomeManager")
+      // .get("http://localhost:7055/api/GetUsers")
       // .then(response => response.data)
       .then((response) => {
         setUsers(response.data);
