@@ -32,7 +32,7 @@ function AddTask(props) {
   function HandleClickDaysOfWeek(daySelected) {
     let newSelectedDay = [...daysOfWeek];
     let index = newSelectedDay.findIndex(
-      (x) => x.dayOfTheWeek == daySelected.dayOfTheWeek
+      (x) => x.dayOfTheWeek === daySelected.dayOfTheWeek
     );
     newSelectedDay[index].selected = !newSelectedDay[index].selected;
     setDaysOfWeek(newSelectedDay);
@@ -44,7 +44,7 @@ function AddTask(props) {
       /[xy]/g,
       function (c) {
         var r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
+          v = c === "x" ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       }
     );
@@ -55,7 +55,7 @@ function AddTask(props) {
     let newTaskList = [...props.currentTasks];
     let taskTitle = document.getElementById("taskTitle").value;
     if(taskTitle){
-        daysOfWeek.map((dayOfWeek) => {
+        daysOfWeek.forEach((dayOfWeek) => {
            if(dayOfWeek.selected){
             newTaskList = [...newTaskList, {
                 id: uuid(),
@@ -67,7 +67,6 @@ function AddTask(props) {
           });
     }
    
-    console.log(newTaskList);
     axios.put(`https://home-app-function.azurewebsites.net/${props.userId}`, {tasks:newTaskList})
     .then(response=>{
        console.log(response);
@@ -87,7 +86,7 @@ function AddTask(props) {
       </button>
 
       <div
-        class="modal fade"
+        class="modal fade test-class"
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
