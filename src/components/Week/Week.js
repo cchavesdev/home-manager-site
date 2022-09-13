@@ -14,7 +14,7 @@ function Week(props) {
     function getUserData() {
    
       axios
-        .get(`http://localhost:7055/api/getuserdata/${id}`)
+        .get(`https://home-app-function.azurewebsites.net/api/getuserdata/${id}`)
         .then((response) => {
           setTasks(response.data[0].tasks);
         });
