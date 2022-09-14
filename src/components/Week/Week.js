@@ -6,15 +6,15 @@ import AddTask from "../AddTask/AddTask";
 
 function Week(props) {
   const [tasks, setTasks] = useState([]);
-  
+
   let { id } = useParams();
 
   useEffect(() => {
-    
     function getUserData() {
-   
       axios
-        .get(`https://home-app-function.azurewebsites.net/api/getuserdata/${id}`)
+        .get(
+          `https://home-app-function.azurewebsites.net/api/getuserdata/${id}`
+        )
         .then((response) => {
           setTasks(response.data[0].tasks);
         });
@@ -23,32 +23,54 @@ function Week(props) {
   }, [id]);
 
   function loadDayTasks(dayOfTheWeek) {
-    console.log(tasks);
-   return tasks.map((element) => {
-      let completedClass = element.isCompleted ?  "completed" :"";
-     return element.dayOfTheWeek === dayOfTheWeek ? 
-          <li onClick={handleClick} task={element.id} className={completedClass}>
-           {element.title}
-          </li>
-          :
-          "";
+    return tasks.map((element, index) => {
+      let completedClass = element.isCompleted ? "completed" : "";
+      return element.dayOfTheWeek === dayOfTheWeek ? (
+        <li onClick={handleClick} task={element.id} className={completedClass} key={index}>
+          {element.title}
+          <span onClick={()=>{deleteTask(element.id)}}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-trash3-fill"
+              viewBox="0 0 16 16"
+            >
+              <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+            </svg>
+          </span>
+        </li>
+      ) : (
+        ""
+      );
     });
-
   }
-  
-  function handleClick(e){
-    
+
+  function deleteTask (id){
+    let newTasks = tasks.filter(x=> x.id !== id);
+    setTasks(newTasks);
+    updateTaskDb(newTasks);
+  }
+
+  function handleClick(e) {
     let newTasksSet = [...tasks];
-    newTasksSet.forEach((task)=>{
-        if(task.id ===  e.target.getAttribute("task")){
-            task.isCompleted = !task.isCompleted;
-            e.target.classList.toggle("completed");
-        }       
+    newTasksSet.forEach((task) => {
+      if (task.id === e.target.getAttribute("task")) {
+        task.isCompleted = !task.isCompleted;
+        e.target.classList.toggle("completed");
+        updateTaskDb(newTasksSet);
+      }
     });
-    axios.put(`http://localhost:7055/api/updateuser/${id}`, {tasks:newTasksSet})
-    .then(response=>{
-       console.log(response);
-    });
+    
+  }
+
+  function updateTaskDb(newTasksSet){
+    axios
+      .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, { tasks: newTasksSet })
+      .then((response) => {
+        console.log(response);
+      });
   }
 
   return (
@@ -68,51 +90,36 @@ function Week(props) {
       <div className="d-flex justify-content-between mb-5">
         <div className="day-box flex-fill green-border">
           <h4>Monday</h4>
-          <ul>
-            { loadDayTasks("Monday")}
-          </ul>
+          <ul className="task-container">{loadDayTasks("Monday")}</ul>
         </div>
         <div className="day-box flex-fill">
-        <h4>Tuesday</h4>
-          <ul>
-            { loadDayTasks("Tuesday")}
-          </ul>
+          <h4>Tuesday</h4>
+          <ul className="task-container">{loadDayTasks("Tuesday")}</ul>
         </div>
         <div className="day-box flex-fill">
-        <h4>Wednesday</h4>
-          <ul>
-            { loadDayTasks("Wednesday")}
-          </ul>
+          <h4>Wednesday</h4>
+          <ul className="task-container">{loadDayTasks("Wednesday")}</ul>
         </div>
         <div className="day-box flex-fill">
-        <h4>Thursday</h4>
-          <ul>
-            { loadDayTasks("Thursday")}
-          </ul>
+          <h4>Thursday</h4>
+          <ul className="task-container">{loadDayTasks("Thursday")}</ul>
         </div>
-       
       </div>
       <div className="d-flex justify-content-around">
-      <div className="day-box flex-fill">
-        <h4>Friday</h4>
-          <ul>
-            { loadDayTasks("Friday")}
-          </ul>
+        <div className="day-box flex-fill">
+          <h4>Friday</h4>
+          <ul className="task-container">{loadDayTasks("Friday")}</ul>
         </div>
         <div className="day-box flex-fill day-box">
-        <h4>Saturday</h4>
-          <ul>
-            { loadDayTasks("Saturday")}
-          </ul>
+          <h4>Saturday</h4>
+          <ul className="task-container">{loadDayTasks("Saturday")}</ul>
         </div>
         <div className="day-box flex-fill day-box">
-        <h4>Sunday</h4>
-          <ul>
-            { loadDayTasks("Sunday")}
-          </ul>
+          <h4>Sunday</h4>
+          <ul className="task-container">{loadDayTasks("Sunday")}</ul>
         </div>
       </div>
-     
+
       <AddTask currentTasks={tasks} userId={id}></AddTask>
     </div>
   );

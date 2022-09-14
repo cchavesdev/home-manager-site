@@ -54,6 +54,13 @@ margin-bottom: 10px;
  background-color: #99E86B;
 }
 
+.day-box ul li{
+  display: flex;
+  padding: 10px;
+}
+.day-box ul li span{
+ margin-left: auto;
+}
 .green-border{
   /* border: 2px solid #99E86B;
   border-radius: 8px; */
@@ -71,4 +78,8 @@ margin-bottom: 10px;
 
 label, .modal-title{
   color: #000;
+}
+
+.task-container li{
+display: flex;
 }
