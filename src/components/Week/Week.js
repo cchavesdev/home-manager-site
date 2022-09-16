@@ -26,9 +26,18 @@ function Week(props) {
     return tasks.map((element, index) => {
       let completedClass = element.isCompleted ? "completed" : "";
       return element.dayOfTheWeek === dayOfTheWeek ? (
-        <li onClick={handleClick} task={element.id} className={completedClass} key={index}>
+        <li
+          onClick={handleClick}
+          task={element.id}
+          className={completedClass}
+          key={index}
+        >
           {element.title}
-          <span onClick={()=>{deleteTask(element.id)}}>
+          <span
+            onClick={() => {
+              deleteTask(element.id);
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -47,8 +56,8 @@ function Week(props) {
     });
   }
 
-  function deleteTask (id){
-    let newTasks = tasks.filter(x=> x.id !== id);
+  function deleteTask(id) {
+    let newTasks = tasks.filter((x) => x.id !== id);
     setTasks(newTasks);
     updateTaskDb(newTasks);
   }
@@ -62,62 +71,44 @@ function Week(props) {
         updateTaskDb(newTasksSet);
       }
     });
-    
   }
 
-  function updateTaskDb(newTasksSet){
+  function updateTaskDb(newTasksSet) {
     axios
-      .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, { tasks: newTasksSet })
+      .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
+        tasks: newTasksSet,
+      })
       .then((response) => {
         console.log(response);
       });
   }
 
+  function loadDayOfWeekHtml() {
+    let DayOfWeeks = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    return DayOfWeeks.map((day, index) => {
+      return (
+        <div className="col-12 col-sm-12 col-md-4 day-box mb-3">
+          <div className="">
+            <h4>{day}</h4>
+            <ul className="task-container">{loadDayTasks(day)}</ul>
+          </div>
+        </div>
+      );
+    });
+  }
+
   return (
     <div className="main-black-container p-3">
-      {/* <h1>Monday {user.name}</h1>
-            <ul>
-                {
-                    mondayTask
-                }
-            </ul>
-            <h1>Tuesday {user.name}</h1>
-            <ul>
-                {
-                    tuesdayTask
-                }
-            </ul> */}
-      <div className="d-flex justify-content-between mb-5">
-        <div className="day-box flex-fill green-border">
-          <h4>Monday</h4>
-          <ul className="task-container">{loadDayTasks("Monday")}</ul>
-        </div>
-        <div className="day-box flex-fill">
-          <h4>Tuesday</h4>
-          <ul className="task-container">{loadDayTasks("Tuesday")}</ul>
-        </div>
-        <div className="day-box flex-fill">
-          <h4>Wednesday</h4>
-          <ul className="task-container">{loadDayTasks("Wednesday")}</ul>
-        </div>
-        <div className="day-box flex-fill">
-          <h4>Thursday</h4>
-          <ul className="task-container">{loadDayTasks("Thursday")}</ul>
-        </div>
-      </div>
-      <div className="d-flex justify-content-around">
-        <div className="day-box flex-fill">
-          <h4>Friday</h4>
-          <ul className="task-container">{loadDayTasks("Friday")}</ul>
-        </div>
-        <div className="day-box flex-fill day-box">
-          <h4>Saturday</h4>
-          <ul className="task-container">{loadDayTasks("Saturday")}</ul>
-        </div>
-        <div className="day-box flex-fill day-box">
-          <h4>Sunday</h4>
-          <ul className="task-container">{loadDayTasks("Sunday")}</ul>
-        </div>
+      <div className="row justify-content-around mb-5">
+        {loadDayOfWeekHtml()}
       </div>
 
       <AddTask currentTasks={tasks} userId={id}></AddTask>

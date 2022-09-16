@@ -19,12 +19,12 @@ function AddTask(props) {
       let selectedClass = dayOfWeek.selected ? "bg-success" : "bg-secondary";
       return (
         <div
-          className={`day d-block p-1 rounded ${selectedClass}`}
+          className={`d-block  p-1   col-4 mb-3`}
           onClick={() => {
             HandleClickDaysOfWeek(dayOfWeek);
           }}
         >
-          <span>{dayOfWeek.dayOfTheWeek}</span>
+          <span className={`d-block w-100 text-center day rounded ${selectedClass}`}>{dayOfWeek.dayOfTheWeek}</span>
         </div>
       );
     });
@@ -78,6 +78,7 @@ function AddTask(props) {
   return (
     <div>
       <button
+      id="addButton"
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
@@ -114,24 +115,18 @@ function AddTask(props) {
                   placeholder="write your goal here!"
                 />
               </div>
-              <div className="days-selector-container d-flex justify-content-between">
+              <div className="days-selector-container d-flex justify-content-around row">
                 {loadDayOfWeek()}
               </div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+             
               <button
                 onClick={submitTask}
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-success"
               >
-                Save changes
+                Add
               </button>
             </div>
           </div>
