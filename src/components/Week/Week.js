@@ -6,7 +6,7 @@ import AddTask from "../AddTask/AddTask";
 
 function Week(props) {
   const [tasks, setTasks] = useState([]);
-
+  var screenDimension = window.screen.availHeight + "X" + window.screen.availWidth
   let { id } = useParams();
 
   useEffect(() => {
@@ -101,10 +101,11 @@ function Week(props) {
     ];
     return DayOfWeeks.map((day, index) => {
       return (
-        <div className="col-12 col-sm-12 col-md-4 day-box mb-3">
+        <div className="col-12 col-md col-lg day-box mb-3">
+           <h6>{day}</h6>
+            
           <div className="">
-            <h4>{day}</h4>
-            <ul className="task-container">{loadDayTasks(day)}</ul>
+          <ul className="task-container">{loadDayTasks(day)}</ul>
           </div>
         </div>
       );
@@ -113,6 +114,7 @@ function Week(props) {
 
   return (
     <div className="main-black-container p-3">
+      <h3 className="text-center">Weekly Planning {screenDimension}</h3>
       <div className="row justify-content-around mb-5">
         {loadDayOfWeekHtml()}
       </div>
