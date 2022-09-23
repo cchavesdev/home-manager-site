@@ -31,7 +31,7 @@ function Dashboard() {
           <div className="col-12 col-lg-4 mb-5 text-center p-3">
           {/* */}
             <div onClick={()=>{goToProfile(i.id)}} className="m-auto mb-5 rounded-circle">
-            <img src={i.picture} className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
+            <img alt="profile picture" src={i.picture} className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
             </div>
             <h5 className="mt-0 ">{i.name}</h5>
           </div>)
