@@ -7,7 +7,7 @@ function Dashboard() {
   function getUsers() {
     axios
       .get("https://home-app-function.azurewebsites.net/api/HomeManager")
-      //.get("http://localhost:7055/api/GetUsers")
+      // .get("http://localhost:7055/api/HomeManager")
       // .then(response => response.data)
       .then((response) => {
         setUsers(response.data);
@@ -28,10 +28,10 @@ function Dashboard() {
       <div className="row">
         {users.map((i) => {
           return (
-          <div className="col-lg-4 mb-5 text-center">
-          {/* <img src={i.picture} className="w-25 m-auto bg-primary mb-1 rounded-circle"/> */}
-            <div onClick={()=>{goToProfile(i.id)}} className="w-50 m-auto mb-5 bg-primary  rounded-circle" style={{ backgroundImage: `url(${i.picture})`, height:'15vw', backgroundRepeat: 'no-repeat', backgroundSize: "cover"}}>
-              
+          <div className="col-12 col-lg-4 mb-5 text-center p-3">
+          {/* */}
+            <div onClick={()=>{goToProfile(i.id)}} className="m-auto mb-5 rounded-circle">
+            <img src={i.picture} className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
             </div>
             <h5 className="mt-0 ">{i.name}</h5>
           </div>)

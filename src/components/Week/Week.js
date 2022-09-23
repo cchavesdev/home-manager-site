@@ -15,6 +15,9 @@ function Week(props) {
         .get(
           `https://home-app-function.azurewebsites.net/api/getuserdata/${id}`
         )
+        // .get(
+        //   `http://localhost:7055/api/getuserdata/${id}`
+        // )
         .then((response) => {
           setTasks(response.data[0].tasks);
         });
@@ -75,7 +78,10 @@ function Week(props) {
 
   function updateTaskDb(newTasksSet) {
     axios
-      .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
+      // .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
+      //   tasks: newTasksSet,
+      // })
+      .put(`http://localhost:7055/api/updateuser/${id}`, {
         tasks: newTasksSet,
       })
       .then((response) => {
