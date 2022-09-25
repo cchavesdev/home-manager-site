@@ -95,3 +95,6 @@ font-size: 10px;
   height: 40px;
   bottom: 20px;
 }
+#goBackButtonContainer svg{
+  margin-top: -4px;
+}

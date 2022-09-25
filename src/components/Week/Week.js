@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import axios from "axios";
 import AddTask from "../AddTask/AddTask";
+import GoBackButton from "../GoBack/GoBackButton";
 
 function Week(props) {
   const [tasks, setTasks] = useState([]);
@@ -78,12 +79,12 @@ function Week(props) {
 
   function updateTaskDb(newTasksSet) {
     axios
-      // .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
-      //   tasks: newTasksSet,
-      // })
-      .put(`http://localhost:7055/api/updateuser/${id}`, {
+      .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
         tasks: newTasksSet,
       })
+      // .put(`http://localhost:7055/api/updateuser/${id}`, {
+      //   tasks: newTasksSet,
+      // })
       .then((response) => {
         console.log(response);
       });
@@ -114,7 +115,10 @@ function Week(props) {
 
   return (
     <div className="main-black-container p-3">
+      <div>
+        <GoBackButton></GoBackButton>
       <h3 className="text-center">Weekly Planning {screenDimension}</h3>
+      </div>
       <div className="row justify-content-around mb-5">
         {loadDayOfWeekHtml()}
       </div>
