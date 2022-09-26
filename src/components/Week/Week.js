@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import AddTask from "../AddTask/AddTask";
 import GoBackButton from "../GoBack/GoBackButton";
+// import WeekProgressDashboard from "../WeekProgressDashboard/WeekProgressDashboard";
 
 function Week(props) {
   const [tasks, setTasks] = useState([]);
+  const [draggableTask, setDraggableTask] = useState({});
   var screenDimension = window.screen.availHeight + "X" + window.screen.availWidth
   let { id } = useParams();
 
@@ -22,19 +24,23 @@ function Week(props) {
         .then((response) => {
           setTasks(response.data[0].tasks);
         });
+        
     }
     getUserData();
+   
   }, [id]);
 
   function loadDayTasks(dayOfTheWeek) {
     return tasks.map((element, index) => {
-      let completedClass = element.isCompleted ? "completed" : "";
+      let completedClass = element.isCompleted ? "completed draggable" : "draggable";
       return element.dayOfTheWeek === dayOfTheWeek ? (
         <li
           onClick={handleClick}
           task={element.id}
           className={completedClass}
           key={index}
+          draggable="true"
+          onDragStart={(e)=>{onDragStart(e, element)}}
         >
           {element.title}
           <span
@@ -76,7 +82,25 @@ function Week(props) {
       }
     });
   }
-
+  function onDragOver(e){
+    e.preventDefault();
+   // console.log(e.target);
+  }
+  function onDragStart(e, element){
+    setDraggableTask({task: element, htmlElement: e.target});
+    e.dataTransfer.setData("text", e.target)
+  }
+  function onDrop(e, dayOfWeek){
+    let taskList = [...tasks];
+    taskList.forEach(task => {
+      if(task.id === draggableTask.task.id){
+        task.DayOfTheWeek = dayOfWeek;
+        updateTaskDb(taskList);
+        e.target.appendChild(draggableTask.htmlElement);
+      }
+    });
+    setDraggableTask({});
+  }
   function updateTaskDb(newTasksSet) {
     axios
       .put(`https://home-app-function.azurewebsites.net/api/updateuser/${id}`, {
@@ -106,17 +130,19 @@ function Week(props) {
            <h6>{day}</h6>
             
           <div className="">
-          <ul className="task-container">{loadDayTasks(day)}</ul>
+          <ul className="task-container" onDragOver={onDragOver} onDrop={(e)=>{onDrop(e, day)}}>{loadDayTasks(day)}</ul>
           </div>
         </div>
       );
     });
   }
 
+
   return (
     <div className="main-black-container p-3">
       <div>
         <GoBackButton></GoBackButton>
+        {/* <WeekProgressDashboard></WeekProgressDashboard> */}
       <h3 className="text-center">Weekly Planning {screenDimension}</h3>
       </div>
       <div className="row justify-content-around mb-5">

@@ -95,6 +95,15 @@ font-size: 10px;
   height: 40px;
   bottom: 20px;
 }
+#goBackButtonContainer{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 #goBackButtonContainer svg{
   margin-top: -4px;
+}
+
+.draggable{
+  cursor: move;
 }

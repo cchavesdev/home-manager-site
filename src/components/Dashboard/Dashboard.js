@@ -24,13 +24,13 @@ function Dashboard() {
   }
   return (
     <div className="main-black-container">
-      <h1 className="text-center mb-5">Select a Profile</h1>
-      <div className="row">
+      <h1 className="text-center mb-3">Select a Profile</h1>
+      <div className="row justify-content-center">
         {users.map((i) => {
           return (
           <div className="col-12 col-lg-4 mb-5 text-center p-3">
           {/* */}
-            <div onClick={()=>{goToProfile(i.id)}} className="m-auto mb-5 rounded-circle">
+            <div onClick={()=>{goToProfile(i.id)}} className="m-auto rounded-circle">
             <img alt="Users Profile" src={i.picture} className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
             </div>
             <h5 className="mt-0 ">{i.name}</h5>
