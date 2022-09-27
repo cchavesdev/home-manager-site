@@ -9,7 +9,8 @@ import GoBackButton from "../GoBack/GoBackButton";
 function Week(props) {
   const [tasks, setTasks] = useState([]);
   const [draggableTask, setDraggableTask] = useState({});
-  var screenDimension = window.screen.availHeight + "X" + window.screen.availWidth
+  var screenDimension =
+    window.screen.availHeight + "X" + window.screen.availWidth;
   let { id } = useParams();
 
   useEffect(() => {
@@ -24,15 +25,15 @@ function Week(props) {
         .then((response) => {
           setTasks(response.data[0].tasks);
         });
-        
     }
     getUserData();
-   
   }, [id]);
 
   function loadDayTasks(dayOfTheWeek) {
     return tasks.map((element, index) => {
-      let completedClass = element.isCompleted ? "completed draggable" : "draggable";
+      let completedClass = element.isCompleted
+        ? "completed draggable"
+        : "draggable";
       return element.dayOfTheWeek === dayOfTheWeek ? (
         <li
           onClick={handleClick}
@@ -40,7 +41,9 @@ function Week(props) {
           className={completedClass}
           key={index}
           draggable="true"
-          onDragStart={(e)=>{onDragStart(e, element)}}
+          onDragStart={(e) => {
+            onDragStart(e, element);
+          }}
         >
           {element.title}
           <span
@@ -82,21 +85,27 @@ function Week(props) {
       }
     });
   }
-  function onDragOver(e){
+  function onDragOver(e) {
     e.preventDefault();
-   // console.log(e.target);
+    // console.log(e.target);
   }
-  function onDragStart(e, element){
-    setDraggableTask({task: element, htmlElement: e.target});
-    e.dataTransfer.setData("text", e.target)
+  function onDragStart(e, element) {
+    setDraggableTask({ task: element, htmlElement: e.target });
   }
-  function onDrop(e, dayOfWeek){
+  function onDrop(e, dayOfWeek) {
+    console.log(e.target);
     let taskList = [...tasks];
-    taskList.forEach(task => {
-      if(task.id === draggableTask.task.id){
+    taskList.forEach((task) => {
+      if (task.id === draggableTask.task.id) {
         task.DayOfTheWeek = dayOfWeek;
-        updateTaskDb(taskList);
-        e.target.appendChild(draggableTask.htmlElement);
+        // updateTaskDb(taskList);
+        if (e.target.classList.contains("draggable")) {
+          if (e.clientY - e.target.getBoundingClientRect().top <= 10 || 0) { //setting 15 as magic number to consider is on top of the element draggable
+            e.target.before(draggableTask.htmlElement);
+          }
+        } else {
+          e.target.appendChild(draggableTask.htmlElement);
+        }
       }
     });
     setDraggableTask({});
@@ -127,23 +136,30 @@ function Week(props) {
     return DayOfWeeks.map((day, index) => {
       return (
         <div className="col-12 col-md col-lg day-box mb-3">
-           <h6>{day}</h6>
-            
+          <h6>{day}</h6>
+
           <div className="">
-          <ul className="task-container" onDragOver={onDragOver} onDrop={(e)=>{onDrop(e, day)}}>{loadDayTasks(day)}</ul>
+            <ul
+              className="task-container"
+              onDragOver={onDragOver}
+              onDrop={(e) => {
+                onDrop(e, day);
+              }}
+            >
+              {loadDayTasks(day)}
+            </ul>
           </div>
         </div>
       );
     });
   }
 
-
   return (
     <div className="main-black-container p-3">
       <div>
         <GoBackButton></GoBackButton>
         {/* <WeekProgressDashboard></WeekProgressDashboard> */}
-      <h3 className="text-center">Weekly Planning {screenDimension}</h3>
+        <h3 className="text-center">Weekly Planning {screenDimension}</h3>
       </div>
       <div className="row justify-content-around mb-5">
         {loadDayOfWeekHtml()}
