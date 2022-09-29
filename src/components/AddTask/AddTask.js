@@ -15,10 +15,11 @@ function AddTask(props) {
   const [daysOfWeek, setDaysOfWeek] = useState(initialDayOfWeeks);
 
   function loadDayOfWeek() {
-    return daysOfWeek.map((dayOfWeek) => {
+    return daysOfWeek.map((dayOfWeek, index) => {
       let selectedClass = dayOfWeek.selected ? "bg-success" : "bg-secondary";
       return (
-        <div
+        <div 
+          key={index}
           className={`d-block  p-1   col-4 mb-3`}
           onClick={() => {
             HandleClickDaysOfWeek(dayOfWeek);
