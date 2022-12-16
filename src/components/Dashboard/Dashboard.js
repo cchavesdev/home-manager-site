@@ -29,13 +29,20 @@ function Dashboard() {
         {users.map((i) => {
           return (
           <div className="col-12 col-lg-4 mb-5 text-center p-3">
-          {/* */}
+        
             <div onClick={()=>{goToProfile(i.id)}} className="m-auto rounded-circle">
             <img alt="Users Profile" src={i.picture} className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
             </div>
             <h5 className="mt-0 ">{i.name}</h5>
           </div>)
         })}
+          <div className="col-12 col-lg-4 mb-5 text-center p-3">
+          
+            <div onClick={()=>{window.location.href = "/shopping"}} className="m-auto rounded-circle">
+            <img alt="Users Profile" src="/img/shopping.jpg" className="w-75 m-auto bg-primary mb-1 rounded-circle"/> 
+            </div>
+            <h5 className="mt-0 ">Shopping List</h5>
+          </div>
       </div>
     </div>
   );

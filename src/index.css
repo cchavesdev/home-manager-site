@@ -12,15 +12,17 @@ code {
     monospace;
 }
 body{
-  background: rgb(90,90,92);
-background: linear-gradient(180deg, rgba(90,90,92,1) 15%, rgba(61,61,68,1) 42%, rgba(0,0,0,1) 100%);
-  color: #fff;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
-  background-image: url('https://c1.wallpaperflare.com/path/785/767/823/sunset-bike-cycling-hill-375df42454a6990fd676cfbac108fb46.jpg');
-}
 
+ 
+}
+.main-black-container{
+  background: rgb(90,90,92);
+  background: linear-gradient(180deg, rgba(90,90,92,1) 15%, rgba(61,61,68,1) 42%, rgba(0,0,0,1) 100%);
+    color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
 .completed{
   text-decoration: line-through;
 }
